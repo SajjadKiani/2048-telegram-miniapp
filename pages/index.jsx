@@ -4,13 +4,14 @@ import Board from "@/components/board";
 import Score from "@/components/score";
 import styles from "@/styles/index.module.css";
 import { useEffect } from "react";
+import Script from "next/script";
 
 export default function Home() {
 
   useEffect(() => {
-    console.log(window.Telegram.WebApp.initData);
+    console.log(window.Telegram?.WebApp.initData);
   }, [])
-  
+
   return (
     <div className={styles.twenty48}>
       <Head>
@@ -28,8 +29,8 @@ export default function Home() {
         />
         <link rel="icon" type="image/png" sizes="32x32" href="favicon32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="favicon16.png" />
-        <script src="https://telegram.org/js/telegram-web-app.js"></script>
       </Head> 
+      <Script src="https://telegram.org/js/telegram-web-app.js"></Script>
       {/* <div>
           mined token
         </div> */}
