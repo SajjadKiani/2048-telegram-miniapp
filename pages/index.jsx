@@ -114,6 +114,11 @@ export default function Home() {
             Leaderboard
           </Link>
         </p>
+        <p>
+          <Link href={'/referral'}>
+            Referral
+          </Link>
+        </p>
       </div>
 
       <footer>
