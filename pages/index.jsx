@@ -8,6 +8,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 
+const loadTelegramScript = () => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://telegram.org/js/telegram-web-app.js';
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+};
+
 export default function Home() {
 
   const searchParams = useSearchParams()
@@ -35,23 +45,34 @@ export default function Home() {
       console.log(e);
     }
   }
-  
+
   useEffect(() => {
-    if (typeof(window.Telegram) !== undefined) 
-      setInitData(window.Telegram.WebApp.initData);
-    
-    
-    const telegramId = ''
+    const initializeTelegram = async () => {
+      try {
+        await loadTelegramScript();
+        if (window.Telegram) {
+          setUser(window.Telegram.WebApp.initData);
+          window.Telegram.WebApp.extend()
+        } else {
+          console.error('Telegram WebApp is not defined');
+        }
+      } catch (error) {
+        console.error('Failed to load Telegram script', error);
+      }
+    };
+
+    initializeTelegram()
+
     const referralParams = searchParams.get('ref')
 
-    fetchUser(telegramId).then(res => {
+    fetchUser(initData.user.id).then(res => {
       let user = res
       if (!user || user.length === 0) {
         const data = { 
           name: initData.user.firstname + '|' + initData.user.lastname,
           telegramId: initData.user.id,
           telegramUsername: initData.user.username,
-          referredBy: referralParams ? referralParams : ''
+          referredBy: referralParams
         }
   
         createUser(data).then(res => {
@@ -80,7 +101,6 @@ export default function Home() {
         <link rel="icon" type="image/png" sizes="32x32" href="favicon32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="favicon16.png" />
       </Head> 
-      <Script src="https://telegram.org/js/telegram-web-app.js"></Script>
       {/* <div>
           mined token
         </div> */}
