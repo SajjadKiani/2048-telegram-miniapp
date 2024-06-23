@@ -7,6 +7,7 @@ import Script from "next/script";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import {fetchUser, createUser} from "@/lib"
 
 const loadTelegramScript = () => {
   return new Promise((resolve, reject) => {
@@ -23,28 +24,6 @@ export default function Home() {
   const searchParams = useSearchParams()
   const [user, setUser] = useState([]) // TODO: use reducer
   const [initData, setInitData] = useState([]) // TODO: use init data
-
-  const fetchUser = async (telegramId) => {
-    try {
-      const response = await fetch('/api/users/' + telegramId)
-      if (response.status === '200')
-        return await response.json()
-      else (response.status === '404')
-        return undefined
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  const createUser = async (data) => {
-    try {
-      const response = await fetch('/api/users/', data, {method: 'POST'})
-      if (response.status === '200')
-        return await response.json()
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   useEffect(() => {
     const initializeTelegram = async () => {
@@ -65,22 +44,22 @@ export default function Home() {
 
     const referralParams = searchParams.get('ref')
 
-    fetchUser(initData.user.id).then(res => {
-      let user = res
-      if (!user || user.length === 0) {
-        const data = { 
-          name: initData.user.firstname + '|' + initData.user.lastname,
-          telegramId: initData.user.id,
-          telegramUsername: initData.user.username,
-          referredBy: referralParams
-        }
+    // fetchUser(initData.user.id).then(res => {
+    //   let user = res
+    //   if (!user || user.length === 0) {
+    //     const data = { 
+    //       name: initData.user.firstname + '|' + initData.user.lastname,
+    //       telegramId: initData.user.id,
+    //       telegramUsername: initData.user.username,
+    //       referredBy: referralParams
+    //     }
   
-        createUser(data).then(res => {
-          user = res
-        })
-      }
-      setUser(user)
-    })
+    //     createUser(data).then(res => {
+    //       user = res
+    //     })
+    //   }
+    //   setUser(user)
+    // })
   }, [])
 
   return (
@@ -131,7 +110,7 @@ export default function Home() {
         </Link>
 
         <p>
-          <Link href={'/play'}>
+          <Link href={'/leaderboard'}>
             Leaderboard
           </Link>
         </p>
