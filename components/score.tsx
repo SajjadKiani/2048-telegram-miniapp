@@ -7,7 +7,7 @@ export default function Score() {
 
   return (
     <div className={styles.score}>
-      Score
+      Point
       <div>{score}</div>
     </div>
   );

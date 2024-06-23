@@ -1,10 +1,9 @@
 import Head from "next/head";
-import Image from "next/image";
-import Board from "@/components/board";
-import Score from "@/components/score";
 import styles from "@/styles/index.module.css";
 import { useEffect } from "react";
 import Script from "next/script";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
 
@@ -13,7 +12,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className={styles.twenty48}>
+    <div className={styles.twenty48} style={{ display: 'flex', flexDirection: "column", height: '100vh', padding: 0 }}>
       <Head>
         <title>Play 2048</title>
         <meta
@@ -34,31 +33,43 @@ export default function Home() {
       {/* <div>
           mined token
         </div> */}
-      <header>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>2048</h1>
-        <Score />
-      </header>
-      <main>
-        <Board />
-      </main>
-      <div>
+        <div style={{ padding: '5px 20px', border: '3px solid #FF7F3E', borderRadius: '40%' , height: '30px', textAlign: 'center', color: '#FF7F3E', fontWeight: 900 }}>
+          0
+        </div>
+      </div>
+      
+      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
         <h2>
-          🚀 <span>@0xjsd0k</span>
+        Welcome @0xSaji
         </h2>
+        <Link href="/play" style={{
+            width: '60%',
+            padding: '10px',
+            textAlign: 'center',
+            backgroundColor: '#FF7F3E',
+            color: 'white',
+            borderRadius: '12px',
+            marginTop: '10px',
+            textDecoration: 'none'
+
+        }}>
+          Play 2048
+        </Link>
+
         <p>
-          <a
-            href="https://www.udemy.com/course/2048-in-react-and-nextjs/?couponCode=50DISCOUNT"
-            target="_blank"
-            rel="noopener"
-          >
+          <Link href={'/play'}>
             Leaderboard
-          </a>{" "}
+          </Link>
         </p>
       </div>
+
       <footer>
         <div className={styles.socials}>
           <a
-            href="https://github.com/sajjadkiani/2048-in-react"
+            href="https://github.com/SajjadKiani/2048-telegram-miniapp"
             target="_blank"
             rel="noopener"
           >
@@ -69,7 +80,7 @@ export default function Home() {
               height={32}
             />
           </a>
-          <a href="https://twitter.com/msokola" target="_blank" rel="noopener">
+          <a href="" target="_blank" rel="noopener">
             <Image
               src="social-twitter.svg"
               alt="Matéush on Twitter"

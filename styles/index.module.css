@@ -48,6 +48,8 @@
 
   .twenty48 > footer > div {
     width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 
   .twenty48 > footer > .socials {
