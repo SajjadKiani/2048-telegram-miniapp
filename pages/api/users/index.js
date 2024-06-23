@@ -35,7 +35,7 @@ export default async function handler(req, res) {
       }
     });
 
-    res.status(200).json(users);
+    res.status(200).json(users.sort((a, b) => b.score - a.score));
   } else {
     res.status(405).send('Method Not Allowed');
   }

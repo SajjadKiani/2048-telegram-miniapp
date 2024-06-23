@@ -7,6 +7,7 @@ import Script from "next/script";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import {fetchUser, createUser} from "@/lib"
 
 const loadTelegramScript = () => {
   return new Promise((resolve, reject) => {
@@ -21,37 +22,16 @@ const loadTelegramScript = () => {
 export default function Home() {
 
   const searchParams = useSearchParams()
-  const [user, setUser] = useState([]) // TODO: use reducer
+  const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
   const [initData, setInitData] = useState([]) // TODO: use init data
-
-  const fetchUser = async (telegramId) => {
-    try {
-      const response = await fetch('/api/users/' + telegramId)
-      if (response.status === '200')
-        return await response.json()
-      else (response.status === '404')
-        return undefined
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  const createUser = async (data) => {
-    try {
-      const response = await fetch('/api/users/', data, {method: 'POST'})
-      if (response.status === '200')
-        return await response.json()
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   useEffect(() => {
     const initializeTelegram = async () => {
       try {
         await loadTelegramScript();
         if (window.Telegram) {
-          setUser(window.Telegram.WebApp.initData);
+          setInitData(window.Telegram.WebApp.initData);
+          console.log(window.Telegram.WebApp.initData);
           window.Telegram.WebApp.extend()
         } else {
           console.error('Telegram WebApp is not defined');
@@ -65,22 +45,23 @@ export default function Home() {
 
     const referralParams = searchParams.get('ref')
 
-    fetchUser(initData.user.id).then(res => {
-      let user = res
-      if (!user || user.length === 0) {
-        const data = { 
-          name: initData.user.firstname + '|' + initData.user.lastname,
-          telegramId: initData.user.id,
-          telegramUsername: initData.user.username,
-          referredBy: referralParams
+    if (initData.user)
+      fetchUser(initData.user.id).then(res => {
+        let u = res
+        if (!u || u.length === 0) {
+          const data = { 
+            name: initData.user.firstname + '|' + initData.user.lastname,
+            telegramId: initData.user.id,
+            telegramUsername: initData.user.username,
+            referredBy: referralParams
+          }
+    
+          createUser(data).then(res => {
+            u = res
+          })
         }
-  
-        createUser(data).then(res => {
-          user = res
-        })
-      }
-      setUser(user)
-    })
+        setUser(u)
+      })
   }, [])
 
   return (
@@ -114,7 +95,7 @@ export default function Home() {
       
       <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
         <h2>
-        Welcome {user?.name}
+        Welcome {user.name}
         </h2>
         <Link href="/play" style={{
             width: '60%',
@@ -131,8 +112,13 @@ export default function Home() {
         </Link>
 
         <p>
-          <Link href={'/play'}>
+          <Link href={'/leaderboard'}>
             Leaderboard
+          </Link>
+        </p>
+        <p>
+          <Link href={'/referral'}>
+            Referral
           </Link>
         </p>
       </div>
