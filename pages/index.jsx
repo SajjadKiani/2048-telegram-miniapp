@@ -22,7 +22,7 @@ const loadTelegramScript = () => {
 export default function Home() {
 
   const searchParams = useSearchParams()
-  const [user, setUser] = useState([]) // TODO: use reducer
+  const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
   const [initData, setInitData] = useState([]) // TODO: use init data
 
   useEffect(() => {
@@ -30,7 +30,8 @@ export default function Home() {
       try {
         await loadTelegramScript();
         if (window.Telegram) {
-          setUser(window.Telegram.WebApp.initData);
+          setInitData(window.Telegram.WebApp.initData);
+          console.log(window.Telegram.WebApp.initData);
           window.Telegram.WebApp.extend()
         } else {
           console.error('Telegram WebApp is not defined');
@@ -44,22 +45,23 @@ export default function Home() {
 
     const referralParams = searchParams.get('ref')
 
-    // fetchUser(initData.user.id).then(res => {
-    //   let user = res
-    //   if (!user || user.length === 0) {
-    //     const data = { 
-    //       name: initData.user.firstname + '|' + initData.user.lastname,
-    //       telegramId: initData.user.id,
-    //       telegramUsername: initData.user.username,
-    //       referredBy: referralParams
-    //     }
-  
-    //     createUser(data).then(res => {
-    //       user = res
-    //     })
-    //   }
-    //   setUser(user)
-    // })
+    if (initData.user)
+      fetchUser(initData.user.id).then(res => {
+        let u = res
+        if (!u || u.length === 0) {
+          const data = { 
+            name: initData.user.firstname + '|' + initData.user.lastname,
+            telegramId: initData.user.id,
+            telegramUsername: initData.user.username,
+            referredBy: referralParams
+          }
+    
+          createUser(data).then(res => {
+            u = res
+          })
+        }
+        setUser(u)
+      })
   }, [])
 
   return (
@@ -93,7 +95,7 @@ export default function Home() {
       
       <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
         <h2>
-        Welcome {user?.name}
+        Welcome {user.name}
         </h2>
         <Link href="/play" style={{
             width: '60%',
