@@ -1,14 +1,65 @@
+"use client"
+
 import Head from "next/head";
 import styles from "@/styles/index.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
 
+  const searchParams = useSearchParams()
+  const [user, setUser] = useState([]) // TODO: use reducer
+  const [initData, setInitData] = useState([]) // TODO: use init data
+
+  const fetchUser = async (telegramId) => {
+    try {
+      const response = await fetch('/api/users/' + telegramId)
+      if (response.status === '200')
+        return await response.json()
+      else (response.status === '404')
+        return undefined
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const createUser = async (data) => {
+    try {
+      const response = await fetch('/api/users/', data, {method: 'POST'})
+      if (response.status === '200')
+        return await response.json()
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  
   useEffect(() => {
-    console.log(window.Telegram?.WebApp.initData);
+    if (typeof(window.Telegram) !== undefined) 
+      setInitData(window.Telegram.WebApp.initData);
+    
+    
+    const telegramId = ''
+    const referralParams = searchParams.get('ref')
+
+    fetchUser(telegramId).then(res => {
+      let user = res
+      if (!user || user.length === 0) {
+        const data = { 
+          name: initData.user.firstname + '|' + initData.user.lastname,
+          telegramId: initData.user.id,
+          telegramUsername: initData.user.username,
+          referredBy: referralParams ? referralParams : ''
+        }
+  
+        createUser(data).then(res => {
+          user = res
+        })
+      }
+      setUser(user)
+    })
   }, [])
 
   return (
@@ -43,7 +94,7 @@ export default function Home() {
       
       <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
         <h2>
-        Welcome @0xSaji
+        Welcome {user?.name}
         </h2>
         <Link href="/play" style={{
             width: '60%',

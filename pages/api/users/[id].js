@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     try {
       const user = await prisma.user.findUnique({
         where: {
-          id: parseInt(id),
+          telegramId: parseInt(id),
         },
         include: {
           referrals: true,
