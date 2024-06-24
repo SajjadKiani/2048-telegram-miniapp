@@ -62,7 +62,7 @@ export default function Home() {
         }
         setUser(u)
       })
-  }, [])
+  }, [initData])
 
   return (
     <div className={styles.twenty48} style={{ display: 'flex', flexDirection: "column", height: '100vh', padding: 0 }}>
