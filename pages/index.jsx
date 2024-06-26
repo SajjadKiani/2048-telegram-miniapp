@@ -23,29 +23,12 @@ export default function Home() {
 
   const searchParams = useSearchParams()
   const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
-  const [initData, setInitData] = useState([]) // TODO: use init data
+  const [tg, setTg] = useState([])
+  const referralParams = searchParams.get('ref')
 
   useEffect(() => {
-    const initializeTelegram = async () => {
-      try {
-        await loadTelegramScript();
-        if (window.Telegram) {
-          setInitData(window.Telegram.WebApp.initData);
-          console.log(window.Telegram.WebApp.initData);
-          window.Telegram.WebApp.extend()
-        } else {
-          console.error('Telegram WebApp is not defined');
-        }
-      } catch (error) {
-        console.error('Failed to load Telegram script', error);
-      }
-    };
-
-    initializeTelegram()
-
-    const referralParams = searchParams.get('ref')
-
-    if (initData.user)
+    if (tg && tg.initData && tg.initData.user) {
+      const initData = tg.initData
       fetchUser(initData.user.id).then(res => {
         let u = res
         if (!u || u.length === 0) {
@@ -62,7 +45,35 @@ export default function Home() {
         }
         setUser(u)
       })
-  }, [initData])
+    }
+  }, [tg])
+
+
+  useEffect(() => {
+    console.log('useTelegram')
+
+    const initializeTelegram = async () => {
+      try {
+        await loadTelegramScript();
+        readyTg();
+      } catch (error) {
+        console.error('Failed to load Telegram script', error);
+      }
+    };
+
+    function readyTg() {
+      if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+        console.log('Telegram WebApp is set');
+        const tgData = window.Telegram.WebApp
+        setTg(tgData);
+      } else {
+        console.log('Telegram WebApp is undefined, retrying…');
+        setTimeout(readyTg, 500);
+      }
+    }
+
+    initializeTelegram()
+  }, [])
 
   return (
     <div className={styles.twenty48} style={{ display: 'flex', flexDirection: "column", height: '100vh', padding: 0 }}>
