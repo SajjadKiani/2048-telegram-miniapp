@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import {fetchUser, createUser} from "@/lib"
+import Spinner from "@/components/spinner";
 
 const loadTelegramScript = () => {
   return new Promise((resolve, reject) => {
@@ -105,9 +106,13 @@ export default function Home() {
       </div>
       
       <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
-        <h2>
-        Welcome {user.name}
-        </h2>
+        {!tg ? 
+          <Spinner /> 
+          :
+          <h2>
+            Welcome {user.name}
+          </h2>
+        }
         <Link href="/play" style={{
             width: '60%',
             padding: '10px',
