@@ -4,6 +4,14 @@ import axios from 'axios';
 type ResponseData = {
   message: string
 }
+
+const keyboard = {
+  inline_keyboard: [
+    [
+      { text: 'Play 2048', url: 'https://t.me/twentygamebot' },
+    ]
+  ]
+};
  
 export default async function handler (
   req: NextApiRequest,
@@ -20,11 +28,9 @@ export default async function handler (
       let responseText;
 
       if (text === '/start') {
-        responseText = 'Hello! Welcome to 2048, enter the game: /run';
-      } else if (text === '/run') {
-          responseText = 'https://t.me/twentygamebot/game2048';
+        responseText = 'Hello! Welcome to 2048, enter the game, its Beta version';
       } else {
-        responseText = `just use commands: /start /run`;
+        responseText = `just use commands: /start`;
       }
 
       const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
@@ -33,6 +39,7 @@ export default async function handler (
       await axios.post(TELEGRAM_API_URL, {
         chat_id: chatId,
         text: responseText,
+        reply_markup: keyboard,
       });
     }
 
