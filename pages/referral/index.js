@@ -4,6 +4,7 @@ import styles from "@/styles/index.module.css";
 import { useEffect, useState } from "react";
 import {fetchUsers} from "@/lib"
 import Link from "next/link";
+import Spinner from '@/components/spinner'
 
 export default function Leaderboard () {
 
@@ -47,9 +48,9 @@ export default function Leaderboard () {
 
             </table>
             :
-            <p style={{ textAlign: 'center' }}>
-                loading...
-            </p>
+            <div style={{ textAlign: 'center' }}>
+                <Spinner />
+            </div>
         }
       </main>
 
