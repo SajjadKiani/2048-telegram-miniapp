@@ -68,17 +68,17 @@ export default function GameProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     const data = {
-      telegramId: gameState.user,
+      // telegramId: gameState.user,
       score: gameState.score
     }
-    updateUser(data)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
+    // updateUser(data)
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
         
-      })
+    //   })
   }, [gameState.score])
 
   useEffect(() => {
