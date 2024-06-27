@@ -24,12 +24,17 @@ export default function Home() {
 
   const searchParams = useSearchParams()
   const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
-  const [tg, setTg] = useState([])
+  const [version, setVersion] = useState(0)
+  const [tg, setTg] = useState(undefined)
   const referralParams = searchParams.get('ref')
 
   useEffect(() => {
-    if (tg && tg.initData && tg.initData.user) {
-      const initData = tg.initData
+    console.log(JSON.stringify(tg));
+    setVersion(tg && tg.version)
+
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      const initData = tg.initDataUnsafe
+      console.log(initData);
       fetchUser(initData.user.id).then(res => {
         let u = res
         if (!u || u.length === 0) {
@@ -162,7 +167,7 @@ export default function Home() {
             />
           </a>
         </div>
-        <div>Made with ❤️ by Saji</div>
+        <div>Made with ❤️ by Saji <br /> v {version} </div>
       </footer>
     </div>
   );

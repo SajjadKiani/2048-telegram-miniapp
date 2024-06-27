@@ -9,6 +9,7 @@ import { isNil, throttle } from "lodash";
 import { mergeAnimationDuration, tileCountPerDimension } from "@/constants";
 import { Tile } from "@/models/tile";
 import gameReducer, { initialState } from "@/reducers/game-reducer";
+import { updateUser } from "@/lib";
 
 type MoveDirection = "move_up" | "move_down" | "move_left" | "move_right";
 
@@ -64,6 +65,21 @@ export default function GameProvider({ children }: PropsWithChildren) {
     dispatch({ type: "create_tile", tile: { position: [0, 1], value: 2 } });
     dispatch({ type: "create_tile", tile: { position: [0, 2], value: 2 } });
   };
+
+  useEffect(() => {
+    const data = {
+      // telegramId: gameState.user,
+      score: gameState.score
+    }
+    // updateUser(data)
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+        
+    //   })
+  }, [gameState.score])
 
   useEffect(() => {
     if (gameState.hasChanged) {
