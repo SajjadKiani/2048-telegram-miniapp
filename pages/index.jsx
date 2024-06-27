@@ -28,8 +28,9 @@ export default function Home() {
   const referralParams = searchParams.get('ref')
 
   useEffect(() => {
-    if (tg && tg.initData && tg.initData.user) {
-      const initData = tg.initData
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      const initData = tg.initDataUnsafe
+      console.log(initData);
       fetchUser(initData.user.id).then(res => {
         let u = res
         if (!u || u.length === 0) {
