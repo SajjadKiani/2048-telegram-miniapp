@@ -8,7 +8,7 @@ type ResponseData = {
 const keyboard = {
   inline_keyboard: [
     [
-      { text: 'Play 2048', url: 'https://t.me/twentygamebot' },
+      { text: 'Play 2048', url: 'https://t.me/twentygamebot/game2048' },
     ]
   ]
 };
