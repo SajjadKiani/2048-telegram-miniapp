@@ -34,7 +34,7 @@ export default async function handler(req, res) {
         try {
             const user = await prisma.user.findUnique({
             where: {
-                id: parseInt(id),
+              telegramId: id,
             },
             include: {
                 referrals: true,
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
             if (user) {
                 const updatedUser = await prisma.user.update({
                     where: {
-                      id: parseInt(id),
+                      telegramId: id,
                     },
                     data: {
                       score: {
