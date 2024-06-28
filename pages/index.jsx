@@ -7,7 +7,7 @@ import Script from "next/script";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import {fetchUser, createUser} from "@/lib"
+import {fetchUser} from "@/lib"
 import Spinner from "@/components/spinner";
 
 const loadTelegramScript = () => {
@@ -19,6 +19,20 @@ const loadTelegramScript = () => {
     document.head.appendChild(script);
   });
 };
+
+const createUser = async (data) => {
+  console.log('run create');
+  try {
+    const response = await fetch('/api/users/', data, {method: 'POST'})
+    if (response.status === '200') {
+      const result = await response.json()
+      console.log(result);
+      return result
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 export default function Home() {
 
@@ -33,22 +47,22 @@ export default function Home() {
 
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
       const initData = tg.initDataUnsafe
-      setUser({name: JSON.stringify(initData)})
+      // setUser({name: JSON.stringify(initData)})
       fetchUser(initData.user.id).then(res => {
         let u = res
-        if (u.length === 0) {
+        // if (u.length === 0) {
           const data = { 
             name: initData.user.first_name + '|' + initData.user.last_name,
             telegramId: `${initData.user.id}`,
             telegramUsername: initData.user.username,
           }
 
-          // referralParams && data.update({referredBy: referralParams})
+          referralParams && data.update({referredBy: referralParams})
     
           createUser(data).then(res => {
             u = res
           })
-        }
+        // }
         setUser(u)
       })
     }
@@ -71,6 +85,9 @@ export default function Home() {
       if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
         console.log('Telegram WebApp is set');
         const tgData = window.Telegram.WebApp
+        try {
+          window.Telegram.extend() 
+        } catch {}
         setTg(tgData);
       } else {
         console.log('Telegram WebApp is undefined, retrying…');
