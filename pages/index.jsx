@@ -36,7 +36,7 @@ export default function Home() {
       setUser({name: JSON.stringify(initData)})
       fetchUser(initData.user.id).then(res => {
         let u = res
-        if (!u || u.length === 0) {
+        // if (!u || u.length === 0) {
           const data = { 
             name: initData.user.first_name + '|' + initData.user.last_name,
             telegramId: `${initData.user.id}`,
@@ -48,8 +48,8 @@ export default function Home() {
           createUser(data).then(res => {
             u = res
           })
-        }
-        setUser(u)
+        // // }
+        // setUser(u)
       })
     }
   }, [tg])
