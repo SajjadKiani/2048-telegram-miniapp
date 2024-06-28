@@ -40,6 +40,7 @@ export default async function handler (
         chat_id: chatId,
         text: responseText,
         reply_markup: keyboard,
+        photo_url: 'https://github.com/SajjadKiani/2048-telegram-miniapp/blob/master/.docs/pic.png?raw=true'
       });
     }
 
