@@ -29,12 +29,10 @@ export default function Home() {
   const referralParams = searchParams.get('ref')
 
   useEffect(() => {
-    console.log(JSON.stringify(tg));
     setVersion(tg && tg.version)
 
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
       const initData = tg.initDataUnsafe
-      console.log(initData);
       fetchUser(initData.user.id).then(res => {
         let u = res
         if (!u || u.length === 0) {
@@ -42,8 +40,9 @@ export default function Home() {
             name: initData.user.firstname + '|' + initData.user.lastname,
             telegramId: initData.user.id,
             telegramUsername: initData.user.username,
-            referredBy: referralParams
           }
+
+          referralParams && data.update({referredBy: referralParams})
     
           createUser(data).then(res => {
             u = res
