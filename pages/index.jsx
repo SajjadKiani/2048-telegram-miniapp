@@ -33,12 +33,13 @@ export default function Home() {
 
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
       const initData = tg.initDataUnsafe
+      setUser({name: JSON.stringify(initData)})
       fetchUser(initData.user.id).then(res => {
         let u = res
         if (!u || u.length === 0) {
           const data = { 
             name: initData.user.first_name + '|' + initData.user.last_name,
-            telegramId: initData.user.id,
+            telegramId: `${initData.user.id}`,
             telegramUsername: initData.user.username,
           }
 
