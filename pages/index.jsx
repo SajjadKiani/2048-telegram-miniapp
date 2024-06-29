@@ -33,9 +33,12 @@ export default function Home() {
 
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
       const initData = tg.initDataUnsafe
-      fetchUser(initData.user.id).then(res => {
-        let u = res
-        if (u.length === 0) {
+      let u;
+      fetchUser(initData.user.id)
+        .then(res => {
+          u = res
+        })
+        .catch (e => {
           const data = { 
             name: initData.user.first_name + '|' + initData.user.last_name,
             telegramId: `${initData.user.id}`,
@@ -47,9 +50,8 @@ export default function Home() {
           createUser(data).then(res => {
             u = res
           })
-        }
+        })
         setUser(u)
-      })
     }
   }, [tg])
 
@@ -70,9 +72,7 @@ export default function Home() {
       if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
         console.log('Telegram WebApp is set');
         const tgData = window.Telegram.WebApp
-        try {
-          window.Telegram.extend() 
-        } catch {}
+        window.Telegram.extend() 
         setTg(tgData);
       } else {
         console.log('Telegram WebApp is undefined, retrying…');
