@@ -7,6 +7,7 @@ type ResponseData = {
 }
 
 const botUrl = process.env.TELEGRAM_BOT_LINK
+const baseUrl = process.env.PUBLIC_URL
 
 const keyboard = {
   inline_keyboard: [
@@ -30,7 +31,8 @@ export default async function handler (
       const text = message.text.toLowerCase();
       let referral = ''
 
-      fetchUser('617600289')
+      
+      axios.get(baseUrl + '/api/users/get/' + userId)
         .then(res => {
           referral = res.data.referralId
         })
