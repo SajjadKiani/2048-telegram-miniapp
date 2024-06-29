@@ -34,7 +34,7 @@ export default async function handler (
       
       try {
         const response = await axios.get(baseUrl + '/api/users/get/' + userId)
-        referral = response.data.referral
+        referral = response.data.referralId
         console.log(response.data);
         
       } catch {}
