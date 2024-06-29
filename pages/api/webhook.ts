@@ -24,7 +24,7 @@ export default async function handler (
 
     if (message && message.text) {
       const chatId = message.chat.id;
-      const userId = message.user.id;
+      const userId = message.from.id;
       const text = message.text.toLowerCase();
       let referral = ''
 
@@ -49,7 +49,7 @@ export default async function handler (
       await axios.post(TELEGRAM_API_URL, {
         chat_id: chatId,
         text: responseText,
-        reply_markup: keyboard,
+        reply_markup: text === '/start' && keyboard,
         photo_url: 'https://github.com/SajjadKiani/2048-telegram-miniapp/blob/master/.docs/pic.png?raw=true'
       });
     }
