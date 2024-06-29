@@ -22,6 +22,9 @@ export default function MobileSwiper({ children, onSwipe }: MobileSwiperProps) {
       return;
     }
 
+    wrapperRef.current?.click()
+    wrapperRef.current?.focus()
+
     e.preventDefault();
 
     setStartX(e.touches[0].clientX);
