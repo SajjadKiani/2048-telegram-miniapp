@@ -1,10 +1,10 @@
-import Head from "next/head";
-import Image from "next/image";
 import Board from "@/components/board";
 import Score from "@/components/score";
 import styles from "@/styles/index.module.css";
+import { useEffect } from "react";
 
 export default function Home() {
+
   return (
     <div className={styles.twenty48}>
       <header>
