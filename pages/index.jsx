@@ -50,6 +50,9 @@ export default function Home() {
           createUser(data).then(res => {
             u = res.data
           })
+          .catch(err => {
+            console.log(err);
+          })  
         }).finally (() => {
           setUser(u)
         })
@@ -122,7 +125,7 @@ export default function Home() {
           <Spinner /> 
           :
           <h2>
-            Welcome {user.name.split('|')?.[0]}
+            Welcome {user?.name.split('|')?.[0]}
           </h2>
         }
         <Link href="/play" style={{
