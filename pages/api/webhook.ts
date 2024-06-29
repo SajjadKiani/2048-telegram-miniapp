@@ -49,7 +49,7 @@ export default async function handler (
       await axios.post(TELEGRAM_API_URL, {
         chat_id: chatId,
         text: responseText,
-        reply_markup: text === '/start' && keyboard,
+        reply_markup: keyboard,
         photo_url: 'https://github.com/SajjadKiani/2048-telegram-miniapp/blob/master/.docs/pic.png?raw=true'
       });
     }
