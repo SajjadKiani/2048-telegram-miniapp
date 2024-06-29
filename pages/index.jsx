@@ -78,6 +78,8 @@ export default function Home() {
           tgData.expand()
           tgData.ready()
           tgData.enableClosingConfirmation()
+          window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
+          window.scrollTo(0, 100);
         } catch {}
         setTg(tgData);
       } else {
