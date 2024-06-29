@@ -2,7 +2,7 @@
 
 import styles from "@/styles/index.module.css";
 import { useEffect, useState } from "react";
-import {fetchUsers} from "@/lib"
+import {fetchTopReferrals} from "@/lib"
 import Link from "next/link";
 import Spinner from '@/components/spinner'
 
