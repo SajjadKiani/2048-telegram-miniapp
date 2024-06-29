@@ -65,6 +65,19 @@ export default async function handler(req, res) {
             console.error(error);
             res.status(500).json({ error: 'Internal server error' });
         }
+  } else if (req.method === 'DELETE') {
+    try {
+      const deletedUser = await prisma.user.delete({
+        where: {
+          id: parseInt(id),
+        },
+      });
+      console.log(id);
+      res.status(200).json({message: 'user deleted!'});
+    } catch (error) {
+      console.log(error);
+      res.status(404).json({message: 'user not found!'});
+    }
   } else {
     res.status(405).json({ error: 'Method not allowed' });
   }
