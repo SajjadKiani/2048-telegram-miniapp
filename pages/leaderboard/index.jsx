@@ -14,7 +14,7 @@ export default function Leaderboard () {
   useEffect(() => {
     fetchUsers()
         .then(res => {
-            setUsers(res)
+            setUsers(res.data)
             setLoading(false)
         })
         .catch(err => {

@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import {fetchUser, createUser} from "@/lib"
 import Spinner from "@/components/spinner";
+import { split } from "lodash";
 
 const loadTelegramScript = () => {
   return new Promise((resolve, reject) => {
@@ -36,7 +37,7 @@ export default function Home() {
       let u;
       fetchUser(initData.user.id)
         .then(res => {
-          u = res
+          u = res.data
         })
         .catch (e => {
           const data = { 
@@ -48,7 +49,7 @@ export default function Home() {
           referralParams && data.update({referredBy: referralParams})
     
           createUser(data).then(res => {
-            u = res
+            u = res.data
           })
         }).finally (() => {
           setUser(u)
@@ -118,7 +119,7 @@ export default function Home() {
           <Spinner /> 
           :
           <h2>
-            Welcome {user?.name}
+            Welcome {user.name.split('|')?.[0]}
           </h2>
         }
         <Link href="/play" style={{
@@ -170,7 +171,7 @@ export default function Home() {
             />
           </a>
         </div>
-        <div>Made with ❤️ by Saji <br /> v {version} </div>
+        <div>Made with ❤️ by Saji <br /> tgv {version} </div>
       </footer>
     </div>
   );
