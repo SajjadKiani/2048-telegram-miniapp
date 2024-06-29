@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios';
+import { fetchUser } from '@/lib';
 
 type ResponseData = {
   message: string
@@ -23,12 +24,21 @@ export default async function handler (
 
     if (message && message.text) {
       const chatId = message.chat.id;
+      const userId = message.user.id;
       const text = message.text.toLowerCase();
+      let referral = ''
+
+      fetchUser(userId)
+        .then(res => {
+          referral = res.data.referralId
+        })
 
       let responseText;
 
       if (text === '/start') {
         responseText = 'Hello! Welcome to 2048, enter the game, its Beta version';
+      } else if (text === '/referral') {
+        responseText = 'your referral link: https://t.me/twentygamebot/game2048?startapp=' + referral
       } else {
         responseText = `just use commands: /start`;
       }
@@ -39,7 +49,7 @@ export default async function handler (
       await axios.post(TELEGRAM_API_URL, {
         chat_id: chatId,
         text: responseText,
-        reply_markup: keyboard,
+        reply_markup: text === '/start' && keyboard,
         photo_url: 'https://github.com/SajjadKiani/2048-telegram-miniapp/blob/master/.docs/pic.png?raw=true'
       });
     }

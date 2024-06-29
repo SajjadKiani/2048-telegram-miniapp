@@ -27,7 +27,7 @@ export default function Home() {
   const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
   const [version, setVersion] = useState(0)
   const [tg, setTg] = useState(undefined)
-  const referralParams = searchParams.get('ref')
+  const [referralParams, setReferralParams] = useState(null)
 
   useEffect(() => {
     setVersion(tg && tg.version)
@@ -78,6 +78,7 @@ export default function Home() {
           tgData.expand()
           tgData.ready()
           tgData.enableClosingConfirmation()
+          setReferralParams(tgData.initDataUnsafe.start_param)
         } catch {}
         setTg(tgData);
       } else {
