@@ -33,7 +33,6 @@ export default function Home() {
 
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
       const initData = tg.initDataUnsafe
-      console.log(JSON.stringify(initData));
       let u;
       fetchUser(initData.user.id)
         .then(res => {
@@ -46,7 +45,7 @@ export default function Home() {
             telegramUsername: initData.user.username,
           }
 
-          initData.start_app && data.update({referredBy: initData.start_app})
+          initData.start_param && data.update({referredBy: initData.start_param})
     
           createUser(data).then(res => {
             u = res.data
