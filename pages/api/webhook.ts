@@ -32,13 +32,12 @@ export default async function handler (
       let referral = ''
 
       
-      axios.get(baseUrl + '/api/users/get/' + userId)
-        .then(res => {
-          referral = res.data.referralId
-        })
-        .catch(err => {
-          console.log(err);
-        })
+      try {
+        const response = await axios.get(baseUrl + '/api/users/get/' + userId)
+        referral = response.data.referral
+        console.log(response.data);
+        
+      } catch {}
 
       let responseText;
 
