@@ -33,7 +33,7 @@ export default function Home() {
 
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
       const initData = tg.initDataUnsafe
-      console.log(initData.start_app);
+      console.log(JSON.stringify(initData));
       let u;
       fetchUser(initData.user.id)
         .then(res => {
