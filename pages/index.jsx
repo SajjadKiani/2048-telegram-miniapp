@@ -43,9 +43,8 @@ export default function Home() {
             name: initData.user.first_name + '|' + initData.user.last_name,
             telegramId: `${initData.user.id}`,
             telegramUsername: initData.user.username,
+            referredBy: initData?.start_param
           }
-
-          initData.start_param && data.update({referredBy: initData.start_param})
     
           createUser(data).then(res => {
             u = res.data
