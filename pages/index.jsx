@@ -75,8 +75,9 @@ export default function Home() {
         console.log('Telegram WebApp is set');
         const tgData = window.Telegram.WebApp
         try {
-          window.Telegram.ready()
-          window.Telegram.expand()
+          tgData.expand()
+          tgData.ready()
+          tgData.enableClosingConfirmation()
         } catch {}
         setTg(tgData);
       } else {
