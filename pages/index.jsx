@@ -27,7 +27,6 @@ export default function Home() {
   const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
   const [version, setVersion] = useState(0)
   const [tg, setTg] = useState(undefined)
-  const [referralParams, setReferralParams] = useState(null)
 
   useEffect(() => {
     setVersion(tg && tg.version)
@@ -46,7 +45,7 @@ export default function Home() {
             telegramUsername: initData.user.username,
           }
 
-          referralParams && data.update({referredBy: referralParams})
+          initData.start_app && data.update({referredBy: initData.start_app})
     
           createUser(data).then(res => {
             u = res.data
@@ -78,7 +77,6 @@ export default function Home() {
           tgData.expand()
           tgData.ready()
           tgData.enableClosingConfirmation()
-          setReferralParams(tgData.initDataUnsafe.start_param)
         } catch {}
         setTg(tgData);
       } else {
