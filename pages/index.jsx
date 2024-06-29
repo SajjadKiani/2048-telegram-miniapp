@@ -74,7 +74,10 @@ export default function Home() {
       if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
         console.log('Telegram WebApp is set');
         const tgData = window.Telegram.WebApp
-        // window.Telegram.extend() 
+        try {
+          window.Telegram.ready()
+          window.Telegram.expand()
+        } catch {}
         setTg(tgData);
       } else {
         console.log('Telegram WebApp is undefined, retrying…');
