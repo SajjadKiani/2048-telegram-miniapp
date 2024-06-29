@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
       const topReferrers = sortedUsers.slice(0, 3);
 
-      res.status(200).json(topReferrers);
+      res.status(200).json(sortedUsers);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal server error' });

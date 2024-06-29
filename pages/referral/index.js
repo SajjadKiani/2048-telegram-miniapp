@@ -13,7 +13,7 @@ export default function Leaderboard () {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchUsers()
+    fetchTopReferrals()
         .then(res => {
             setUsers(res.data)
             setLoading(false)
