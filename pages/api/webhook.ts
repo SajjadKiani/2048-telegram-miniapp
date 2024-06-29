@@ -6,10 +6,12 @@ type ResponseData = {
   message: string
 }
 
+const botUrl = process.env.TELEGRAM_BOT_LINK
+
 const keyboard = {
   inline_keyboard: [
     [
-      { text: 'Play 2048', url: 'https://t.me/twentygamebot/game2048' },
+      { text: 'Play 2048', url: botUrl },
     ]
   ]
 };
@@ -28,9 +30,12 @@ export default async function handler (
       const text = message.text.toLowerCase();
       let referral = ''
 
-      fetchUser(userId)
+      fetchUser('617600289')
         .then(res => {
           referral = res.data.referralId
+        })
+        .catch(err => {
+          console.log(err);
         })
 
       let responseText;
@@ -38,7 +43,7 @@ export default async function handler (
       if (text === '/start') {
         responseText = 'Hello! Welcome to 2048, enter the game, its Beta version';
       } else if (text === '/referral') {
-        responseText = 'your referral link: https://t.me/twentygamebot/game2048?startapp=' + referral
+        responseText = 'your referral link: ' + botUrl + '?startapp=' + referral
       } else {
         responseText = `just use commands: /start`;
       }
