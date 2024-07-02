@@ -6,10 +6,13 @@ type ResponseData = {
   message: string
 }
 
+const botUrl = process.env.TELEGRAM_BOT_LINK
+const baseUrl = process.env.PUBLIC_URL
+
 const keyboard = {
   inline_keyboard: [
     [
-      { text: 'Play 2048', url: 'https://t.me/twentygamebot/game2048' },
+      { text: 'Play 2048', url: botUrl },
     ]
   ]
 };
@@ -28,17 +31,20 @@ export default async function handler (
       const text = message.text.toLowerCase();
       let referral = ''
 
-      fetchUser(userId)
-        .then(res => {
-          referral = res.data.referralId
-        })
+      
+      try {
+        const response = await axios.get(baseUrl + '/api/users/get/' + userId)
+        referral = response.data.referralId
+        console.log(response.data);
+        
+      } catch {}
 
       let responseText;
 
       if (text === '/start') {
         responseText = 'Hello! Welcome to 2048, enter the game, its Beta version';
       } else if (text === '/referral') {
-        responseText = 'your referral link: https://t.me/twentygamebot/game2048?startapp=' + referral
+        responseText = 'your referral link: ' + botUrl + '?startapp=' + referral
       } else {
         responseText = `just use commands: /start`;
       }

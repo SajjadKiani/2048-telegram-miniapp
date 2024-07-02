@@ -46,13 +46,15 @@ export default function Home() {
             name: initData.user.first_name + '|' + initData.user.last_name,
             telegramId: `${initData.user.id}`,
             telegramUsername: initData.user.username,
+            referredBy: initData?.start_param
           }
-
-          initData.start_app && data.update({referredBy: initData.start_app})
     
           createUser(data).then(res => {
             u = res.data
           })
+          .catch(err => {
+            console.log(err);
+          })  
         }).finally (() => {
           setUser(u)
           setUserId(initData.user.id)
@@ -126,7 +128,7 @@ export default function Home() {
           <Spinner /> 
           :
           <h2>
-            Welcome {user.name.split('|')?.[0]}
+            Welcome {user?.name.split('|')?.[0]}
           </h2>
         }
         <Link href="/play" style={{
