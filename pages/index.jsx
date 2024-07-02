@@ -10,6 +10,8 @@ import { useSearchParams } from "next/navigation";
 import {fetchUser, createUser} from "@/lib"
 import Spinner from "@/components/spinner";
 import { split } from "lodash";
+import { useContext } from "react";
+import { GameContext } from "@/context/game-context";
 
 const loadTelegramScript = () => {
   return new Promise((resolve, reject) => {
@@ -23,6 +25,7 @@ const loadTelegramScript = () => {
 
 export default function Home() {
 
+  const { setUser: setUserId } = useContext(GameContext);
   const searchParams = useSearchParams()
   const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
   const [version, setVersion] = useState(0)
@@ -52,6 +55,7 @@ export default function Home() {
           })
         }).finally (() => {
           setUser(u)
+          setUserId(initData.user.id)
         })
     }
   }, [tg])

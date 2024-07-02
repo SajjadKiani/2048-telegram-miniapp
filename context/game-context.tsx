@@ -18,10 +18,16 @@ export const GameContext = createContext({
   moveTiles: (_: MoveDirection) => {},
   getTiles: () => [] as Tile[],
   startGame: () => {},
+  setUser: (_: number) => {},
+  userId: 0
 });
 
 export default function GameProvider({ children }: PropsWithChildren) {
   const [gameState, dispatch] = useReducer(gameReducer, initialState);
+
+  const setUser = (userId: number) => {
+    dispatch({type: 'set_user', userId})
+  }
 
   const getEmptyCells = () => {
     const results: [number, number][] = [];
@@ -97,6 +103,8 @@ export default function GameProvider({ children }: PropsWithChildren) {
         getTiles,
         moveTiles,
         startGame,
+        setUser,
+        userId: gameState.userId
       }}
     >
       {children}

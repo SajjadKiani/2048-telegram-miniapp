@@ -9,6 +9,7 @@ type State = {
   tilesByIds: string[];
   hasChanged: boolean;
   score: number;
+  userId: number;
 };
 type Action =
   | { type: "create_tile"; tile: Tile }
@@ -16,7 +17,8 @@ type Action =
   | { type: "move_up" }
   | { type: "move_down" }
   | { type: "move_left" }
-  | { type: "move_right" };
+  | { type: "move_right" }
+  | { type: "set_user"; userId: number };
 
 function createBoard() {
   const board: string[][] = [];
@@ -34,6 +36,7 @@ export const initialState: State = {
   tilesByIds: [],
   hasChanged: false,
   score: 0,
+  userId: 0,
 };
 
 export default function gameReducer(
@@ -286,6 +289,9 @@ export default function gameReducer(
         hasChanged,
         score,
       };
+    }
+    case "set_user": {
+
     }
     default:
       return state;
