@@ -40,7 +40,7 @@ const AdsProvider: React.FC<AdsProviderProps> = ({children}) => {
 
     useEffect(() => {
       if (window && window.Adsgram) {
-        setAdsController( window.Adsgram.init({ blockId: '261', debug: process.env.NODE_ENV === 'development' }));
+        setAdsController( window.Adsgram.init({ blockId: '261', debug: process.env.NODE_ENV !== 'production' }));
         console.log('ads initid');
         
       }
