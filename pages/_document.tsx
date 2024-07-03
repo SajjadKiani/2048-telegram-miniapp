@@ -1,11 +1,13 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
+
 export default function Document() {
 
   return (
     <Html lang="en">
       <Head >
         <link rel="manifest" href="/manifest.json" />
-        <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+        <Script src="https://sad.adsgram.ai/js/sad.min.js"></Script>
       </Head>
       <body>
         <Main />
