@@ -19,7 +19,14 @@ const loadTelegramScript = () => {
     script.src = 'https://telegram.org/js/telegram-web-app.js';
     script.onload = resolve;
     script.onerror = reject;
+
+    const adScript = document.createElement('script');
+    adScript.src = 'https://sad.adsgram.ai/js/sad.min.js';
+    adScript.onload = resolve;
+    adScript.onerror = reject;
+
     document.head.appendChild(script);
+    document.head.appendChild(adScript);
   });
 };
 

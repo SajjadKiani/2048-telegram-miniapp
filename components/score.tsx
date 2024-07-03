@@ -2,9 +2,14 @@ import { GameContext } from "@/context/game-context";
 import { updateUser } from "@/lib";
 import styles from "@/styles/score.module.css";
 import { useContext, useEffect } from "react";
+import { useAds } from "@/context/ads-context";
+
+// Define the types based on the external library's API
+
 
 export default function Score() {
   const { score, userId } = useContext(GameContext);
+  const {adsController} = useAds()
 
   const fetchScore = async () => {
     try {
@@ -16,6 +21,13 @@ export default function Score() {
 
   useEffect(() => {
     const intervalId = setInterval(fetchScore , 5000);
+
+    if (score % 10 === 0 && adsController)
+      adsController.show().then((result) => {
+            console.log(result);
+        }).catch((result) => {
+          console.log(result);
+        })
     return () => clearInterval(intervalId)
   }, [score, userId])
 
