@@ -4,12 +4,8 @@ import styles from "@/styles/score.module.css";
 import { useContext, useEffect } from "react";
 import { useAds } from "@/context/ads-context";
 
-interface ShowPromiseResult {
-  done: boolean; // true if user watch till the end, otherwise false
-  description: string; // event description
-  state: 'load' | 'render' | 'playing' | 'destroy'; // banner state
-  error: boolean; // true if event was emitted due to error, otherwise false
-}
+// Define the types based on the external library's API
+
 
 export default function Score() {
   const { score, userId } = useContext(GameContext);
@@ -27,9 +23,9 @@ export default function Score() {
     const intervalId = setInterval(fetchScore , 5000);
 
     if (score % 10 === 0 && adsController)
-      adsController.show().then((result: ShowPromiseResult) => {
+      adsController.show().then((result) => {
             console.log(result);
-        }).catch((result: ShowPromiseResult) => {
+        }).catch((result) => {
           console.log(result);
         })
     return () => clearInterval(intervalId)
