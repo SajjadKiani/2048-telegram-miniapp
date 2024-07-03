@@ -5,6 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head >
         <link rel="manifest" href="/manifest.json" />
+        <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
       </Head>
       <body>
         <Main />
