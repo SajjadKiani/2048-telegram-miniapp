@@ -18,14 +18,14 @@ export const GameContext = createContext({
   moveTiles: (_: MoveDirection) => {},
   getTiles: () => [] as Tile[],
   startGame: () => {},
-  setUser: (_: number) => {},
+  setUserId: (_: number) => {},
   userId: 0
 });
 
 export default function GameProvider({ children }: PropsWithChildren) {
   const [gameState, dispatch] = useReducer(gameReducer, initialState);
 
-  const setUser = (userId: number) => {
+  const setUserId = (userId: number) => {
     dispatch({type: 'set_user', userId})
   }
 
@@ -103,7 +103,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
         getTiles,
         moveTiles,
         startGame,
-        setUser,
+        setUserId,
         userId: gameState.userId
       }}
     >
