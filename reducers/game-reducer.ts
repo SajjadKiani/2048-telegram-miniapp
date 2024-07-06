@@ -291,7 +291,12 @@ export default function gameReducer(
       };
     }
     case "set_user": {
-
+      const { userId } = action;
+      
+      return {
+        ...state,
+        userId
+      }
     }
     default:
       return state;
