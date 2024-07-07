@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
-const AdsContext = createContext<AdsContextType>({});
+const AdsContext = createContext<AdsContextType | undefined>(undefined);
 
 interface ShowPromiseResult {
   done: boolean; // true if user watch till the end, otherwise false
@@ -12,6 +12,7 @@ interface ShowPromiseResult {
 // Define the context type
 interface AdsContextType {
   adsController?: AdsController;
+  setAdsController: React.Dispatch<React.SetStateAction<AdsController | undefined>>
 }
 
 interface AdsController {
@@ -37,16 +38,8 @@ interface AdsProviderProps {
 
 const AdsProvider: React.FC<AdsProviderProps> = ({children}) => {
     const [adsController, setAdsController] = useState<AdsController | undefined>(undefined)
-
-    useEffect(() => {
-      if (window && window.Adsgram) {
-        setAdsController( window.Adsgram.init({ blockId: '261', debug: process.env.NODE_ENV !== 'production' }));
-        console.log('ads initid');
-        
-      }
-    },[])
     
-    return <AdsContext.Provider value={{ adsController }}> {children} </AdsContext.Provider>
+    return <AdsContext.Provider value={{ adsController, setAdsController }}> {children} </AdsContext.Provider>
 }
 
 const useAds = () => {
