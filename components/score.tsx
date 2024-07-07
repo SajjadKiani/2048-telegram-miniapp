@@ -1,7 +1,7 @@
 import { GameContext } from "@/context/game-context";
 import { updateUser } from "@/lib";
 import styles from "@/styles/score.module.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAds } from "@/context/ads-context";
 
 // Define the types based on the external library's API
@@ -9,26 +9,40 @@ import { useAds } from "@/context/ads-context";
 
 export default function Score() {
   const { score, userId } = useContext(GameContext);
-  const {adsController} = useAds()
+  const [promises, setPromises] = useState<Promise<any>[]>([]);
+  const {adsController} = useAds();
 
   const fetchScore = async () => {
-    try {
-      const response = await updateUser({id: userId, score})
-    } catch (e) {
-      console.log(e);
-    }
+    return updateUser({id: userId, score})
+      .then(res => {
+        // console.log(res);
+      })
+      .catch(error => 
+        Promise.reject({error})
+      )
   }
 
   useEffect(() => {
-    const intervalId = setInterval(fetchScore , 5000);
 
+    if (score !== 0) { // Avoid sending initial 0 score
+      const scorePromise = fetchScore().catch(error => ({ score, status: 'rejected', error }));
+      setPromises(prevPromises => [...prevPromises, scorePromise]);
+
+      // Process all promises after a score change
+      Promise.allSettled([scorePromise])
+        .then(results => {
+          console.log(results);
+        });
+    }
+
+    // ads
     if (score % 10 === 0 && adsController)
-      adsController.show().then((result) => {
+      adsController.show()
+        .then((result) => {
             console.log(result);
         }).catch((result) => {
           console.log(result);
         })
-    return () => clearInterval(intervalId)
   }, [score, userId])
 
   return (
