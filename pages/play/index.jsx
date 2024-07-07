@@ -16,7 +16,7 @@ export default function Home() {
       </main>
       <div>
         <h2 style={{ textAlign: 'center' }}>
-          🚀 <span>@0xsjd0k</span>
+          {/* 🚀 <span>@0xsjd0k</span> */}
         </h2>
       </div>
       

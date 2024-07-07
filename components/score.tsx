@@ -36,7 +36,7 @@ export default function Score() {
     }
 
     // ads
-    if (score % 10 === 0 && adsController)
+    if (score % 5000 === 0 && adsController)
       adsController.show()
         .then((result) => {
             console.log(result);
