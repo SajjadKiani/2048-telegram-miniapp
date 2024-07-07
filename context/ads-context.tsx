@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
-const AdsContext = createContext<AdsContextType>({});
+const AdsContext = createContext<AdsContextType | undefined>(undefined);
 
 interface ShowPromiseResult {
   done: boolean; // true if user watch till the end, otherwise false
