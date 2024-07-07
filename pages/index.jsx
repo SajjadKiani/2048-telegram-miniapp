@@ -94,6 +94,7 @@ export default function Home() {
         }
         try {
           tgData.enableClosingConfirmation()
+          tgData.disableVerticalSwipes()
         } catch {}
         setTg(tgData);
       } else {
