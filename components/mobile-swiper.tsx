@@ -22,9 +22,6 @@ export default function MobileSwiper({ children, onSwipe }: MobileSwiperProps) {
       return;
     }
 
-    wrapperRef.current?.click()
-    wrapperRef.current?.focus()
-
     e.preventDefault();
 
     setStartX(e.touches[0].clientX);
@@ -43,6 +40,9 @@ export default function MobileSwiper({ children, onSwipe }: MobileSwiperProps) {
       const endY = e.changedTouches[0].clientY;
       const deltaX = endX - startX;
       const deltaY = endY - startY;
+
+      console.log(deltaX, endX, startX);
+      console.log(deltaY, endY, startY);
 
       onSwipe({ deltaX, deltaY });
 
