@@ -88,7 +88,7 @@ export default function Home() {
       if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
         console.log('Telegram WebApp is set');
         const tgData = window.Telegram.WebApp
-        if (window && window.Adsgram) {
+        if (window.Adsgram) {
           setAdsController( window.Adsgram.init({ blockId: '261', debug: process.env.NODE_ENV !== 'production' }))
           console.log('ads initid');
         }
