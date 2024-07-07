@@ -48,13 +48,7 @@ export default async function handler(req, res) {
                       id: parseInt(id),
                     },
                     data: {
-                      score: {
-                        increment: parseInt(score), // Increment the score by 1
-                      },
-                    },
-                    include: {
-                      referrals: true,
-                      referredBy: true,
+                      score: parseInt(score),
                     },
                   });
                 res.status(200).json(updatedUser);
