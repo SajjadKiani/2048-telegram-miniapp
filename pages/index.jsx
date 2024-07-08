@@ -161,7 +161,7 @@ export default function Home() {
         </div>
       </div>
       
-      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '100px'}}>
+      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '40px'}}>
         {!tg ? 
           <Spinner /> 
           :
