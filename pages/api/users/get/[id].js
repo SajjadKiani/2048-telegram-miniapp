@@ -72,7 +72,7 @@ export default async function handler(req, res) {
             },
           });
 
-          if (dailyScore) {
+          if (dailyScore && dailyScore.score < score) {
             // Update the score for today
             const updatedDailyScore = await prisma.dailyScore.update({
               where: {
