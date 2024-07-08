@@ -10,16 +10,6 @@ export default function Score() {
   const {adsController} = useAds();
   const [lastAdMilestone, setLastAdMilestone] = useState<number>(0)
 
-  function shouldShowAd() {
-    
-    const nextMilestone = Math.floor(score / 100) * 100;
-    if (score >= nextMilestone && nextMilestone > lastAdMilestone) {
-      setLastAdMilestone(nextMilestone); // Update the last milestone
-      return true;
-    }
-    return false;
-  }
-
   const fetchScore = async () => {
     return updateUser({id: userId, score})
       .then(res => {
@@ -44,11 +34,12 @@ export default function Score() {
         });
     }
 
+    const nextMilestone = Math.floor(score / 500) * 500;
     // ads
-    if (adsController && shouldShowAd())
+    if (adsController && score >= nextMilestone && nextMilestone > lastAdMilestone)
       adsController.show()
         .then((result) => {
-            console.log(result);
+            setLastAdMilestone(nextMilestone); // Update the last milestone
         }).catch((result) => {
           console.log(result);
         })
