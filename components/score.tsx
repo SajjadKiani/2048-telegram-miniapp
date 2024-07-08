@@ -33,13 +33,11 @@ export default function Score() {
           setPromises([])
         });
     }
-
-    const nextMilestone = Math.floor(score / 500) * 500;
     // ads
-    if (adsController && score >= nextMilestone && nextMilestone > lastAdMilestone)
+    if ((score % 500 === 1 || score % 500 === 0) && adsController)
       adsController.show()
         .then((result) => {
-            setLastAdMilestone(nextMilestone); // Update the last milestone
+            console.log(result);
         }).catch((result) => {
           console.log(result);
         })
