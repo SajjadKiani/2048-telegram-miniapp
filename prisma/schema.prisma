@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,14 +9,26 @@ datasource db {
 }
 
 model User {
-  id                        Int      @id @default(autoincrement())
+  id                        Int              @id @default(autoincrement())
   name                      String
-  telegramId                String   @unique
-  telegramUsername          String   @unique
-  referralId                String   @unique
+  telegramId                String           @unique
+  telegramUsername          String           @unique
+  referralId                String           @unique
   referredById              Int?
-  referredBy                User?    @relation("UserReferrals", fields: [referredById], references: [id])
-  referrals                 User[]   @relation("UserReferrals")
-  createdAt                 DateTime @default(now())
-  score                     Int      @default(0)
+  referredBy                User?            @relation("UserReferrals", fields: [referredById], references: [id])
+  referrals                 User[]           @relation("UserReferrals")
+  createdAt                 DateTime         @default(now())
+  score                     Int              @default(0)
+  dailyScores               DailyScore[]     @relation("UserDailyScores")
+}
+
+model DailyScore {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation("UserDailyScores", fields: [userId], references: [id])
+  date       DateTime @default(now())
+  score      Int
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, date])
 }
