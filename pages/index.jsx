@@ -170,21 +170,22 @@ export default function Home() {
               {user?.name.replace('|', ' ')}
             </h1>
             <DailyScoreChart dailyScore={user.dailyScore ? user.dailyScore : dailyScore} />
+
+            <Link href="/play" style={{
+                width: '60%',
+                padding: '10px',
+                textAlign: 'center',
+                backgroundColor: '#FF7F3E',
+                color: 'white',
+                borderRadius: '12px',
+                marginTop: '10px',
+                textDecoration: 'none'
+
+            }}>
+              Play 2048
+            </Link>
           </>
         }
-        <Link href="/play" style={{
-            width: '60%',
-            padding: '10px',
-            textAlign: 'center',
-            backgroundColor: '#FF7F3E',
-            color: 'white',
-            borderRadius: '12px',
-            marginTop: '10px',
-            textDecoration: 'none'
-
-        }}>
-          Play 2048
-        </Link>
 
         <div>
         <p>

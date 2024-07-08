@@ -10,8 +10,9 @@ export default function Score() {
   const {adsController} = useAds();
   const [lastAdMilestone, setLastAdMilestone] = useState<number>(0)
 
-  function shouldShowAd(score: number) {
-    const nextMilestone = Math.floor(score / 1000) * 1000;
+  function shouldShowAd() {
+    
+    const nextMilestone = Math.floor(score / 100) * 100;
     if (score >= nextMilestone && nextMilestone > lastAdMilestone) {
       setLastAdMilestone(nextMilestone); // Update the last milestone
       return true;
@@ -36,14 +37,15 @@ export default function Score() {
       setPromises(prevPromises => [...prevPromises, scorePromise]);
 
       // Process all promises after a score change
-      Promise.allSettled([scorePromise])
+      Promise.allSettled(promises)
         .then(results => {
           console.log(results);
+          setPromises([])
         });
     }
 
     // ads
-    if (shouldShowAd(score) && adsController)
+    if (adsController && shouldShowAd())
       adsController.show()
         .then((result) => {
             console.log(result);
