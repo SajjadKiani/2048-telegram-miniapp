@@ -41,9 +41,6 @@ export default function MobileSwiper({ children, onSwipe }: MobileSwiperProps) {
       const deltaX = endX - startX;
       const deltaY = endY - startY;
 
-      console.log(deltaX, endX, startX);
-      console.log(deltaY, endY, startY);
-
       onSwipe({ deltaX, deltaY });
 
       setStartX(0);

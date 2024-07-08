@@ -33,7 +33,7 @@ const loadTelegramScript = () => {
 
 export default function Home() {
 
-  const { setUserId } = useContext(GameContext);
+  const { setUserId, moveTiles } = useContext(GameContext);
   const { setAdsController } = useAds()
   const searchParams = useSearchParams()
   const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
@@ -121,6 +121,12 @@ export default function Home() {
         try {
           tgData.enableClosingConfirmation()
           tgData.disableVerticalSwipes()
+
+          // TODO: its hardcoded for move down
+          tgData.onEvent('viewportChanged', (e) => {
+            console.log('move down');
+            moveTiles('move_down');
+          })
         } catch {}
         setTg(tgData);
       } else {
