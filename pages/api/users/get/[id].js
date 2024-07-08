@@ -18,7 +18,12 @@ export default async function handler(req, res) {
       });
 
       if (user) {
-        res.status(200).json(user);
+        const dailyScore = await prisma.dailyScore.findMany({
+          where: {
+            id: user.id,
+          },
+        });
+        res.status(200).json({...user, dailyScore: dailyScore});
       } else {
         res.status(404).json([]);
       }
