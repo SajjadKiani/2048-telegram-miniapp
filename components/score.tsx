@@ -4,13 +4,20 @@ import styles from "@/styles/score.module.css";
 import { useContext, useEffect, useState } from "react";
 import { useAds } from "@/context/ads-context";
 
-// Define the types based on the external library's API
-
-
 export default function Score() {
   const { score, userId } = useContext(GameContext);
   const [promises, setPromises] = useState<Promise<any>[]>([]);
   const {adsController} = useAds();
+  const [lastAdMilestone, setLastAdMilestone] = useState<number>(0)
+
+  function shouldShowAd(score: number) {
+    const nextMilestone = Math.floor(score / 1000) * 1000;
+    if (score >= nextMilestone && nextMilestone > lastAdMilestone) {
+      setLastAdMilestone(nextMilestone); // Update the last milestone
+      return true;
+    }
+    return false;
+  }
 
   const fetchScore = async () => {
     return updateUser({id: userId, score})
@@ -36,7 +43,7 @@ export default function Score() {
     }
 
     // ads
-    if (score % 5000 === 0 && adsController)
+    if (shouldShowAd(score) && adsController)
       adsController.show()
         .then((result) => {
             console.log(result);
