@@ -30,11 +30,12 @@ export default async function handler (
       const userId = message.from.id;
       const text = message.text.toLowerCase();
       let referral = ''
-
+      let score = 0
       
       try {
         const response = await axios.get(baseUrl + '/api/users/get/' + userId)
         referral = response.data.referralId
+        score = response.data.score
         console.log(response.data);
         
       } catch {}
@@ -42,9 +43,17 @@ export default async function handler (
       let responseText;
 
       if (text === '/start') {
-        responseText = 'Hello! Welcome to 2048, enter the game, its Beta version';
+        responseText = `Hello! 
+                        Play 2048. Merge tiles. Get Rewards. The more tiles you merge, the more Rewards you get.
+                        
+                        Hurry up!`;
       } else if (text === '/referral') {
-        responseText = 'your referral link: ' + botUrl + '?startapp=' + referral
+        responseText = `Hi My Friend!
+                        lets play 2048
+
+                        my score: ${score}
+                        my referral link:   
+                        ${botUrl}?startapp=${referral}`
       } else {
         responseText = `just use commands: /start`;
       }
@@ -55,7 +64,7 @@ export default async function handler (
       await axios.post(TELEGRAM_API_URL, {
         chat_id: chatId,
         text: responseText,
-        reply_markup: keyboard,
+        reply_markup: text === '/start' && keyboard,
         photo_url: 'https://github.com/SajjadKiani/2048-telegram-miniapp/blob/master/.docs/pic.png?raw=true'
       });
     }
