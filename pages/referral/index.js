@@ -40,7 +40,7 @@ export default function Leaderboard () {
                 <tbody>
                     {users && users.map((user, index) =>
                         <tr key={index}>
-                            <td style={{ textAlign: 'center' }}>{user.name}</td>  
+                            <td style={{ textAlign: 'center' }}>{user.name.replace('|', ' ')}</td>  
                             <td style={{ textAlign: 'center' }}>{user.referralCount}</td>
                         </tr>
                     )}
