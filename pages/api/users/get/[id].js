@@ -42,6 +42,18 @@ export default async function handler(req, res) {
         });
 
         if (user) {
+          // uodate user
+          const updateUser = await prisma.user.update({
+            where: {
+              id: parseInt(id),
+            },
+            data: {
+              score: {
+                increment: parseInt(score), // Increment the score by 1
+              },
+            },
+          });
+
           // Update daily score
           const today = new Date();
           today.setHours(0, 0, 0, 0); // set to start of the day
