@@ -12,6 +12,7 @@ import Spinner from "@/components/spinner";
 import { useContext } from "react";
 import { GameContext } from "@/context/game-context";
 import { useAds } from "@/context/ads-context";
+import DailyScoreChart from "@/components/dailyScoreChart"
 
 const loadTelegramScript = () => {
   return new Promise((resolve, reject) => {
@@ -38,6 +39,31 @@ export default function Home() {
   const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
   const [version, setVersion] = useState(0)
   const [tg, setTg] = useState(undefined)
+
+  // temp
+  const dailyScore = [
+    {
+      "id": 1,
+      "userId": 1,
+      "date": "2024-07-08T00:00:00.000Z",
+      "score": 200,
+      "createdAt": "2024-07-08T07:55:47.513Z"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "date": "2024-07-09T00:00:00.000Z",
+      "score": 400,
+      "createdAt": "2024-07-08T07:55:47.513Z"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "date": "2024-07-10T00:00:00.000Z",
+      "score": 100,
+      "createdAt": "2024-07-08T07:55:47.513Z"
+    },
+  ]
 
   useEffect(() => {
     setVersion(tg && tg.version)
@@ -131,17 +157,20 @@ export default function Home() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>2048</h1>
         <div style={{ padding: '5px 20px', border: '3px solid #FF7F3E', borderRadius: '40%' , height: '30px', textAlign: 'center', color: '#FF7F3E', fontWeight: 900 }}>
-          0
+          {user?.score}
         </div>
       </div>
       
-      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
+      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '100px'}}>
         {!tg ? 
           <Spinner /> 
           :
-          <h2>
-            Welcome {user?.name.split('|')?.[0]}
-          </h2>
+          <>
+            <h1>
+              {user?.name.replace('|', ' ')}
+            </h1>
+            <DailyScoreChart dailyScore={user.dailyScore ? user.dailyScore : dailyScore} />
+          </>
         }
         <Link href="/play" style={{
             width: '60%',
@@ -157,6 +186,7 @@ export default function Home() {
           Play 2048
         </Link>
 
+        <div>
         <p>
           <Link href={'/leaderboard'}>
             Leaderboard
@@ -167,31 +197,10 @@ export default function Home() {
             Referral
           </Link>
         </p>
+        </div>
       </div>
 
       <footer>
-        <div className={styles.socials}>
-          <a
-            href="https://github.com/SajjadKiani/2048-telegram-miniapp"
-            target="_blank"
-            rel="noopener"
-          >
-            <Image
-              src="social-github.svg"
-              alt="2048-in-react on GitHub"
-              width={32}
-              height={32}
-            />
-          </a>
-          <a href="" target="_blank" rel="noopener">
-            <Image
-              src="social-twitter.svg"
-              alt="Matéush on Twitter"
-              width={32}
-              height={32}
-            />
-          </a>
-        </div>
         <div>Made with ❤️ by Saji <br /> tgv {version} </div>
       </footer>
     </div>
