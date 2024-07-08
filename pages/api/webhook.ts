@@ -44,16 +44,18 @@ export default async function handler (
 
       if (text === '/start') {
         responseText = `Hello! 
-                        Play 2048. Merge tiles. Get Rewards. The more tiles you merge, the more Rewards you get.
-                        
-                        Hurry up!`;
+
+Play 2048. Merge tiles. Get Rewards. The more tiles you merge, the more Rewards you get.
+
+Hurry up!`;
       } else if (text === '/referral') {
         responseText = `Hi My Friend!
-                        lets play 2048
+lets play 2048.
 
-                        my score: ${score}
-                        my referral link:   
-                        ${botUrl}?startapp=${referral}`
+my score: ${score}
+
+my referral link:   
+${botUrl}?startapp=${referral}`
       } else {
         responseText = `just use commands: /start`;
       }
@@ -64,8 +66,7 @@ export default async function handler (
       await axios.post(TELEGRAM_API_URL, {
         chat_id: chatId,
         text: responseText,
-        reply_markup: text === '/start' && keyboard,
-        photo_url: 'https://github.com/SajjadKiani/2048-telegram-miniapp/blob/master/.docs/pic.png?raw=true'
+        reply_markup: keyboard,
       });
     }
 
