@@ -34,7 +34,8 @@ export default function Score() {
         });
     }
     // ads
-    if ((score % 500 === 1 || score % 500 === 0) && adsController)
+    const adLimit: number = 500
+    if ((score % adLimit === 1 || score % adLimit === 0 || score % adLimit === 2 || score % adLimit === 3) && adsController)
       adsController.show()
         .then((result) => {
             console.log(result);
