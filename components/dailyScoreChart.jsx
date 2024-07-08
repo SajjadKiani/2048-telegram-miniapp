@@ -9,19 +9,19 @@ export default function DailyScoreChart ({dailyScore}) {
     console.log(dailyScore);
 
     React.useEffect(() => {
-        const dates = getDatesForWeek();
-        const labels = dates.map(date => date.toLocaleDateString('en-US', { weekday: 'short' }));
-        const d = dates.map(date => {
-                    const scoreEntry = dailyScore.find(
-                        score => new Date(score.date).toDateString() === date.toDateString()
-                    );
-                    return scoreEntry ? scoreEntry.score : 0;
-                  })
-        setData(
-            d.map((s, index) => ({date: labels[index], score: s}))
-        )
-
-        // setData({})
+        if (dailyScore.length > 0) {
+            const dates = getDatesForWeek();
+            const labels = dates.map(date => date.toLocaleDateString('en-US', { weekday: 'short' }));
+            const d = dates.map(date => {
+                        const scoreEntry = dailyScore.find(
+                            score => new Date(score.date).toDateString() === date.toDateString()
+                        );
+                        return scoreEntry ? scoreEntry.score : 0;
+                    })
+            setData(
+                d.map((s, index) => ({date: labels[index], score: s}))
+            )
+        }
     }, [dailyScore])
 
     return (
