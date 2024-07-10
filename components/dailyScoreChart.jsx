@@ -16,12 +16,10 @@ export default function DailyScoreChart ({dailyScore}) {
                         score => new Date(score.date).toDateString() === date.toDateString()
                     );
                     return scoreEntry ? scoreEntry.score : 0;
-                  })
+                })
         setData(
             d.map((s, index) => ({date: labels[index], score: s}))
         )
-
-        // setData({})
     }, [dailyScore])
 
     return (

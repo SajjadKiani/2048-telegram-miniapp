@@ -29,8 +29,9 @@ export default function Leaderboard () {
       <header style={{ textAlign: 'center' }}>
         <h1>Referrals</h1>
       </header>
+
       <main style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-      {!loading ? 
+          {!loading ? 
             users && users.map((user, index) => 
               <div key={index} style={{ backgroundColor: 'white', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0px 20px', boxShadow: ' 3px 6px 18px 0px rgba(0,0,0,0.12)', gap: '5px' }}>
                 {index === 0 ? <Image src={'/gold.svg'} width="32" height="32" /> : 

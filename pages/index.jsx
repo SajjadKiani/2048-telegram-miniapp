@@ -33,7 +33,7 @@ const loadTelegramScript = () => {
 
 export default function Home() {
 
-  const { setUserId } = useContext(GameContext);
+  const { setUserId, moveTiles } = useContext(GameContext);
   const { setAdsController } = useAds()
   const searchParams = useSearchParams()
   const [user, setUser] = useState({name: 'Loading...'}) // TODO: use reducer
@@ -122,6 +122,13 @@ export default function Home() {
         }
         try {
           tgData.enableClosingConfirmation()
+          tgData.disableVerticalSwipes()
+
+          // TODO: its hardcoded for move down
+          tgData.onEvent('viewportChanged', (e) => {
+            console.log('move down');
+            moveTiles('move_down');
+          })
         } catch {}
         setTg(tgData);
       } else {
@@ -164,6 +171,7 @@ export default function Home() {
       
       <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '100px'}}>
         {loading && !tg ? 
+
           <Spinner /> 
           :
           <>
@@ -171,21 +179,22 @@ export default function Home() {
               {user?.name.replace('|', ' ')}
             </h1>
             <DailyScoreChart dailyScore={user.dailyScore ? user.dailyScore : dailyScore} />
+
+            <Link href="/play" style={{
+                width: '60%',
+                padding: '10px',
+                textAlign: 'center',
+                backgroundColor: '#FF7F3E',
+                color: 'white',
+                borderRadius: '12px',
+                marginTop: '10px',
+                textDecoration: 'none'
+
+            }}>
+              Play 2048
+            </Link>
           </>
         }
-        <Link href="/play" style={{
-            width: '60%',
-            padding: '10px',
-            textAlign: 'center',
-            backgroundColor: '#FF7F3E',
-            color: 'white',
-            borderRadius: '12px',
-            marginTop: '10px',
-            textDecoration: 'none'
-
-        }}>
-          Play 2048
-        </Link>
 
         <div>
         <p>

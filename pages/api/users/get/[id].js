@@ -53,9 +53,7 @@ export default async function handler(req, res) {
               id: parseInt(id),
             },
             data: {
-              score: {
-                increment: parseInt(score), // Increment the score by 1
-              },
+              score: parseInt(score)
             },
           });
 
