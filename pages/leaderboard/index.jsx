@@ -32,9 +32,11 @@ export default function Leaderboard () {
         {!loading ? 
             users && users.map((user, index) => 
               <div key={index} style={{ backgroundColor: 'white', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0px 20px', boxShadow: ' 3px 6px 18px 0px rgba(0,0,0,0.12)', gap: '5px' }}>
-                {index === 0 && <Image src={'/gold.svg'} width="32" height="32" />}
-                {index === 1 && <Image src={'/silver.svg'} width="32" height="32" />}
-                {index === 2 && <Image src={'/bronze.svg'} width="32" height="32" />}
+                {index === 0 ? <Image src={'/gold.svg'} width="32" height="32" /> : 
+                index === 1 ? <Image src={'/silver.svg'} width="32" height="32" /> : 
+                index === 2 ? <Image src={'/bronze.svg'} width="32" height="32" /> :
+                index+1 + ') '
+                }
                 <p style={{ flexGrow: 1 }}>
                 {user.name.replace('|', ' ')}</p>
                 <p>{user.score}</p>
