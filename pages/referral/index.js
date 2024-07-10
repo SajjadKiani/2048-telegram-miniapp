@@ -40,7 +40,7 @@ export default function Leaderboard () {
                 }
                 <p style={{ flexGrow: 1 }}>
                 {user.name.replace('|', ' ')}</p>
-                <p>{user.score}</p>
+                <p>{user.referralCount}</p>
               </div>
             )
             :
