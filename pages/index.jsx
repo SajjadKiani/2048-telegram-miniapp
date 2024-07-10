@@ -123,6 +123,7 @@ export default function Home() {
         try {
           tgData.enableClosingConfirmation()
           tgData.disableVerticalSwipes()
+          tgData.setHeaderColor('#faf8ef')
 
           // TODO: its hardcoded for move down
           tgData.onEvent('viewportChanged', (e) => {
