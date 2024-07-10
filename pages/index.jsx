@@ -36,9 +36,10 @@ export default function Home() {
   const { setUserId, moveTiles } = useContext(GameContext);
   const { setAdsController } = useAds()
   const searchParams = useSearchParams()
-  const [user, setUser] = useState({name: 'test'}) // TODO: use reducer
+  const [user, setUser] = useState({name: 'Loading...'}) // TODO: use reducer
   const [version, setVersion] = useState(0)
   const [tg, setTg] = useState(undefined)
+  const [loading, setLoading] = useState(true);
 
   // temp
   const dailyScore = [
@@ -71,6 +72,7 @@ export default function Home() {
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
       const initData = tg.initDataUnsafe
       let u;
+      setLoading(true)
       fetchUser(initData.user.id)
         .then(res => {
           u = res.data
@@ -91,8 +93,8 @@ export default function Home() {
           })  
         }).finally (() => {
           setUser(u)
-          console.log(u);
           setUserId(u.id)
+          setLoading(false)
         })
     }
   }, [tg])
@@ -167,8 +169,9 @@ export default function Home() {
         </div>
       </div>
       
-      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '40px'}}>
-        {!tg ? 
+      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '100px'}}>
+        {loading && !tg ? 
+
           <Spinner /> 
           :
           <>

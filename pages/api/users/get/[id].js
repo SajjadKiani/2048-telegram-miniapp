@@ -70,14 +70,14 @@ export default async function handler(req, res) {
             },
           });
 
-          if (dailyScore && dailyScore.score < score) {
+          if (dailyScore) {
             // Update the score for today
             const updatedDailyScore = await prisma.dailyScore.update({
               where: {
                 id: dailyScore.id,
               },
               data: {
-                score: parseInt(score),
+                score: parseInt(score) > dailyScore.score ? parseInt(score) : dailyScore.score,
               },
             });
 
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
             // Create a new daily score
             const newDailyScore = await prisma.dailyScore.create({
               data: {
-                userId: parseInt(id),
+                userId: user.id,
                 date: today,
                 score: parseInt(score),
               },
