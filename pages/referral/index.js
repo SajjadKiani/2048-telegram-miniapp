@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import {fetchTopReferrals} from "@/lib"
 import Link from "next/link";
 import Spinner from '@/components/spinner'
+import Image from "next/image";
 
 export default function Leaderboard () {
 
@@ -28,25 +29,21 @@ export default function Leaderboard () {
       <header style={{ textAlign: 'center' }}>
         <h1>Referrals</h1>
       </header>
-      <main>
-        {!loading ? 
-            <table style={{ width: '100%' }}>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>referrals</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users && users.map((user, index) =>
-                        <tr key={index}>
-                            <td style={{ textAlign: 'center' }}>{user.name.replace('|', ' ')}</td>  
-                            <td style={{ textAlign: 'center' }}>{user.referralCount}</td>
-                        </tr>
-                    )}
-                </tbody>
 
-            </table>
+      <main style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {!loading ? 
+            users && users.map((user, index) => 
+              <div key={index} style={{ backgroundColor: 'white', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0px 20px', boxShadow: ' 3px 6px 18px 0px rgba(0,0,0,0.12)', gap: '5px' }}>
+                {index === 0 ? <Image src={'/gold.svg'} width="32" height="32" /> : 
+                index === 1 ? <Image src={'/silver.svg'} width="32" height="32" /> : 
+                index === 2 ? <Image src={'/bronze.svg'} width="32" height="32" /> :
+                index+1 + ') '
+                }
+                <p style={{ flexGrow: 1 }}>
+                {user.name.replace('|', ' ')}</p>
+                <p>{user.referralCount}</p>
+              </div>
+            )
             :
             <div style={{ textAlign: 'center' }}>
                 <Spinner />
