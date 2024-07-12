@@ -20,6 +20,7 @@ model User {
   createdAt                 DateTime         @default(now())
   score                     Int              @default(0)
   dailyScores               DailyScore[]     @relation("UserDailyScores")
+  adViews                   AdView[]         @relation("UserAdViews")
 }
 
 model DailyScore {
@@ -31,4 +32,18 @@ model DailyScore {
   createdAt  DateTime @default(now())
 
   @@unique([userId, date])
+}
+
+model AdView {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation("UserAdViews", fields: [userId], references: [id])
+  date       DateTime @default(now())
+  status     AdStatus
+  createdAt  DateTime @default(now())
+}
+
+enum AdStatus {
+  SUCCESS
+  FAIL
 }

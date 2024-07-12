@@ -104,6 +104,31 @@ export default async function handler(req, res) {
     } else {
       res.status(400).json({ error: 'Score is required' });
     }
+  } else if (req.method === 'PUT') {
+    const { status } = req.body;
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: parseInt(id),
+        },
+      });
+
+      if (user && status) {
+        const newAdView = await prisma.adView.create({
+          data: {
+            userId: parseInt(id),
+            status,
+          },
+        })
+
+        res.status(200).json(newAdView);
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   } else if (req.method === 'DELETE') {
     try {
       const deletedUser = await prisma.user.delete({

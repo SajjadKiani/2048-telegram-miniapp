@@ -1,5 +1,5 @@
 import { GameContext } from "@/context/game-context";
-import { updateUser } from "@/lib";
+import { createAd, updateUser } from "@/lib";
 import styles from "@/styles/score.module.css";
 import { useContext, useEffect, useState } from "react";
 import { useAds } from "@/context/ads-context";
@@ -35,13 +35,24 @@ export default function Score() {
     }
     // ads
     const adLimit: number = 500
-    if ((score % adLimit === 1 || score % adLimit === 0 || score % adLimit === 2 || score % adLimit === 3) && adsController)
+    if ((score % adLimit === 1 || score % adLimit === 0 || score % adLimit === 2 || score % adLimit === 3) && adsController) {
+      let adStatus = ''
       adsController.show()
-        .then((result) => {
-            console.log(result);
-        }).catch((result) => {
+      .then((result) => {
+          adStatus = 'SUCCESS'
           console.log(result);
-        })
+      })
+      .catch((result) => {
+        adStatus = 'FAIL'
+        console.log(result);
+      })
+      .finally(() => {
+        createAd({id: userId, status: adStatus})
+          .then(res => {console.log(res)})
+          .catch(err => {console.log(err)})
+      })
+      
+    }
   }, [score, userId])
 
   return (
