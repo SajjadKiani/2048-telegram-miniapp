@@ -34,8 +34,7 @@ export default function Score() {
         });
     }
     // ads
-    const adLimit: number = 500
-    if ((score % adLimit === 1 || score % adLimit === 0 || score % adLimit === 2 || score % adLimit === 3) && adsController) {
+    if (score % 10 === 0 && adsController) {
       let adStatus = ''
       adsController.show()
       .then((result) => {
