@@ -11,7 +11,6 @@ import {fetchUser, createUser} from "@/lib"
 import Spinner from "@/components/spinner";
 import { useContext } from "react";
 import { GameContext } from "@/context/game-context";
-import { useAds } from "@/context/ads-context";
 import DailyScoreChart from "@/components/dailyScoreChart"
 
 const loadTelegramScript = () => {
@@ -34,7 +33,6 @@ const loadTelegramScript = () => {
 export default function Home() {
 
   const { setUserId, moveTiles } = useContext(GameContext);
-  const { setAdsController } = useAds()
   const searchParams = useSearchParams()
   const [user, setUser] = useState({name: 'Loading...'}) // TODO: use reducer
   const [version, setVersion] = useState(0)
@@ -116,10 +114,6 @@ export default function Home() {
       if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
         console.log('Telegram WebApp is set');
         const tgData = window.Telegram.WebApp
-        if (window.Adsgram) {
-          setAdsController( window.Adsgram.init({ blockId: '261', debug: process.env.NODE_ENV !== 'production' }))
-          console.log('ads initid');
-        }
         try {
           tgData.enableClosingConfirmation()
           tgData.disableVerticalSwipes()

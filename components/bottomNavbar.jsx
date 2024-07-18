@@ -7,11 +7,8 @@ import { useEffect } from 'react';
 
 const BottomNavbar = () => {
 
-    const router = useRouter()
+  const router = useRouter()
 
-    useEffect(() => {
-        console.log(router.pathname);
-    }, [router])
 
   return (
     <div className={styles.navbar}>

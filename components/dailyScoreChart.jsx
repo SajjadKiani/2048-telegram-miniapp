@@ -6,7 +6,6 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Resp
 export default function DailyScoreChart ({dailyScore}) {
     
     const [data, setData] = React.useState([])
-    console.log(dailyScore);
 
     React.useEffect(() => {
         const dates = getDatesForWeek();
