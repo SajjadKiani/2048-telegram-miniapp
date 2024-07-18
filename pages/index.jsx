@@ -142,7 +142,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className={styles.twenty48} style={{ display: 'flex', flexDirection: "column", height: '100vh', padding: 0 }}>
+    <div className={styles.twenty48} style={{ display: 'flex', flexDirection: "column", height: '95vh', padding: 0 }}>
       <Head>
         <title>Play 2048</title>
         <meta
@@ -170,7 +170,7 @@ export default function Home() {
         </div>
       </div>
       
-      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '100px'}}>
+      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '20px', paddingTop: '100px'}}>
         {loading && !tg ? 
 
           <Spinner /> 
@@ -181,7 +181,7 @@ export default function Home() {
             </h1>
             <DailyScoreChart dailyScore={user.dailyScore ? user.dailyScore : dailyScore} />
 
-            <Link href="/play" style={{
+            {/* <Link href="/play" style={{
                 width: '60%',
                 padding: '10px',
                 textAlign: 'center',
@@ -193,27 +193,15 @@ export default function Home() {
 
             }}>
               Play 2048
-            </Link>
+            </Link> */}
           </>
         }
 
-        <div>
-        <p>
-          <Link href={'/leaderboard'}>
-            Leaderboard
-          </Link>
-        </p>
-        <p>
-          <Link href={'/referral'}>
-            Referral
-          </Link>
-        </p>
-        </div>
       </div>
 
-      <footer>
+      {/* <footer>
         <div>Made with ❤️ by Saji <br /> tgv {version} </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }
