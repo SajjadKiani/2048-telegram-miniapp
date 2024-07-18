@@ -12,31 +12,14 @@ import Spinner from "@/components/spinner";
 import { useContext } from "react";
 import { GameContext } from "@/context/game-context";
 import DailyScoreChart from "@/components/dailyScoreChart"
-
-const loadTelegramScript = () => {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://telegram.org/js/telegram-web-app.js';
-    script.onload = resolve;
-    script.onerror = reject;
-
-    const adScript = document.createElement('script');
-    adScript.src = 'https://sad.adsgram.ai/js/sad.min.js';
-    adScript.onload = resolve;
-    adScript.onerror = reject;
-
-    document.head.appendChild(script);
-    document.head.appendChild(adScript);
-  });
-};
-
+import {useTg} from "@/context/tg-context"
 export default function Home() {
 
   const { setUserId, moveTiles } = useContext(GameContext);
   const searchParams = useSearchParams()
   const [user, setUser] = useState({name: 'Loading...'}) // TODO: use reducer
   const [version, setVersion] = useState(0)
-  const [tg, setTg] = useState(undefined)
+  const {tg} = useTg()
   const [loading, setLoading] = useState(true);
 
   // temp
@@ -96,44 +79,6 @@ export default function Home() {
         })
     }
   }, [tg])
-
-
-  useEffect(() => {
-    console.log('useTelegram')
-
-    const initializeTelegram = async () => {
-      try {
-        await loadTelegramScript();
-        readyTg();
-      } catch (error) {
-        console.error('Failed to load Telegram script', error);
-      }
-    };
-
-    function readyTg() {
-      if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
-        console.log('Telegram WebApp is set');
-        const tgData = window.Telegram.WebApp
-        try {
-          tgData.enableClosingConfirmation()
-          tgData.disableVerticalSwipes()
-          tgData.setHeaderColor('#faf8ef')
-
-          // TODO: its hardcoded for move down
-          tgData.onEvent('viewportChanged', (e) => {
-            console.log('move down');
-            moveTiles('move_down');
-          })
-        } catch {}
-        setTg(tgData);
-      } else {
-        console.log('Telegram WebApp is undefined, retrying…');
-        setTimeout(readyTg, 500);
-      }
-    }
-
-    initializeTelegram()
-  }, [])
 
   return (
     <div className={styles.twenty48} style={{ display: 'flex', flexDirection: "column", height: '95vh', padding: 0 }}>
