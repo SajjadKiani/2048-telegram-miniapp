@@ -6,7 +6,6 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Resp
 export default function DailyScoreChart ({dailyScore}) {
     
     const [data, setData] = React.useState([])
-    console.log(dailyScore);
 
     React.useEffect(() => {
         const dates = getDatesForWeek();
@@ -23,13 +22,13 @@ export default function DailyScoreChart ({dailyScore}) {
     }, [dailyScore])
 
     return (
-        <div style={{ padding: '10px', paddingTop: 0, backgroundColor: 'white', borderRadius: '8px', minHeight: '200px', }}>
+        <div style={{ padding: '10px', paddingTop: 0, backgroundColor: 'white', borderRadius: '8px', minHeight: '250px', }}>
             
             <h2 style={{ textAlign: 'center' }}>
                 Daily Score
             </h2>
 
-            <ResponsiveContainer minWidth="300px" maxHeight={'200px'}>
+            <ResponsiveContainer minWidth="350px" maxHeight={'200px'}>
                 <BarChart data={data}>
                 <XAxis
                     dataKey="date"

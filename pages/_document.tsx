@@ -7,6 +7,10 @@ export default function Document() {
     <Html lang="en">
       <Head >
         <link rel="manifest" href="/manifest.json" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        />
         {/* <Script src="https://sad.adsgram.ai/js/sad.min.js"></Script> */}
       </Head>
       <body>
