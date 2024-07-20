@@ -22,6 +22,11 @@ const TgProvider = ({children}) => {
         if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
           console.log('Telegram WebApp is set');
           const tgData = window.Telegram.WebApp
+          tgData.onEvent('viewportChanged', (e) => {
+            // e.preventDefault()
+            console.log('move down');
+            moveTiles('move_down');
+          })
           try {
             tgData.enableClosingConfirmation()
             tgData.disableVerticalSwipes()

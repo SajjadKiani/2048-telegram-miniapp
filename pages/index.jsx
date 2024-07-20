@@ -49,12 +49,12 @@ export default function Home() {
 
   useEffect(() => {
 
-    if (tg && tg.onEvent)
-      tg.onEvent('viewportChanged', (e) => {
-        e.preventDefault()
-        console.log('move down');
-        moveTiles('move_down');
-      })
+    // if (tg && tg.onEvent)
+    //   tg.onEvent('viewportChanged', (e) => {
+    //     e.preventDefault()
+    //     console.log('move down');
+    //     moveTiles('move_down');
+    //   })
 
     setVersion(tg && tg.version)
 
