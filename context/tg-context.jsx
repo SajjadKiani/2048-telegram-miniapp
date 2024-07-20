@@ -1,10 +1,11 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react'
+import { GameContext } from "@/context/game-context";
 
 const TgContext = createContext(undefined);
 
-
 const TgProvider = ({children}) => {
     const [tg, setTg] = useState(undefined)
+    const { setUserId, moveTiles } = useContext(GameContext);
 
     const loadTelegramScript = () => {
         return new Promise((resolve, reject) => {
