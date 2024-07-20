@@ -8,14 +8,14 @@ import { TgProvider } from "@/context/tg-context";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <TgProvider>
-      <AdsProvider>
-        <GameProvider>
-          <Analytics />
-          <Component {...pageProps} />
-          <BottomNavbar />
-        </GameProvider>
-      </AdsProvider>
-    </TgProvider>
+    <GameProvider>
+      <TgProvider>
+        <AdsProvider>
+            <Analytics />
+            <Component {...pageProps} />
+            <BottomNavbar />
+        </AdsProvider>
+      </TgProvider>
+    </GameProvider>
   );
 }
