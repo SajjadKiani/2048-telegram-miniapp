@@ -49,7 +49,7 @@ export default function Home() {
 
   useEffect(() => {
 
-    if (tg)
+    if (tg && tg.onEvent)
       tg.onEvent('viewportChanged', (e) => {
         e.preventDefault()
         console.log('move down');
