@@ -35,14 +35,18 @@ export default async function handler (
     let successSendCount = 0
 
     for (const user of users) {
+        console.log('try message for: ' + user.telegramUsername);
         try {
-            await axios.post(TELEGRAM_API_URL, {
+            const response = await axios.post(TELEGRAM_API_URL, {
                 chat_id: user.telegramId,
                 text: message,
                 reply_markup: keyboard,
               });
               successSendCount++;
-        } catch {}
+        } catch (e) {
+            console.log(e);
+            
+        }
     }
 
     res.status(200).json({message: `${successSendCount}`})
