@@ -11,34 +11,15 @@ import {fetchUser, createUser} from "@/lib"
 import Spinner from "@/components/spinner";
 import { useContext } from "react";
 import { GameContext } from "@/context/game-context";
-import { useAds } from "@/context/ads-context";
 import DailyScoreChart from "@/components/dailyScoreChart"
-
-const loadTelegramScript = () => {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://telegram.org/js/telegram-web-app.js';
-    script.onload = resolve;
-    script.onerror = reject;
-
-    const adScript = document.createElement('script');
-    adScript.src = 'https://sad.adsgram.ai/js/sad.min.js';
-    adScript.onload = resolve;
-    adScript.onerror = reject;
-
-    document.head.appendChild(script);
-    document.head.appendChild(adScript);
-  });
-};
-
+import {useTg} from "@/context/tg-context"
 export default function Home() {
 
   const { setUserId, moveTiles } = useContext(GameContext);
-  const { setAdsController } = useAds()
   const searchParams = useSearchParams()
   const [user, setUser] = useState({name: 'Loading...'}) // TODO: use reducer
   const [version, setVersion] = useState(0)
-  const [tg, setTg] = useState(undefined)
+  const {tg} = useTg()
   const [loading, setLoading] = useState(true);
 
   // temp
@@ -67,6 +48,14 @@ export default function Home() {
   ]
 
   useEffect(() => {
+
+    // if (tg && tg.onEvent)
+    //   tg.onEvent('viewportChanged', (e) => {
+    //     e.preventDefault()
+    //     console.log('move down');
+    //     moveTiles('move_down');
+    //   })
+
     setVersion(tg && tg.version)
 
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
@@ -99,50 +88,8 @@ export default function Home() {
     }
   }, [tg])
 
-
-  useEffect(() => {
-    console.log('useTelegram')
-
-    const initializeTelegram = async () => {
-      try {
-        await loadTelegramScript();
-        readyTg();
-      } catch (error) {
-        console.error('Failed to load Telegram script', error);
-      }
-    };
-
-    function readyTg() {
-      if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
-        console.log('Telegram WebApp is set');
-        const tgData = window.Telegram.WebApp
-        if (window.Adsgram) {
-          setAdsController( window.Adsgram.init({ blockId: '261', debug: process.env.NODE_ENV !== 'production' }))
-          console.log('ads initid');
-        }
-        try {
-          tgData.enableClosingConfirmation()
-          tgData.disableVerticalSwipes()
-          tgData.setHeaderColor('#faf8ef')
-
-          // TODO: its hardcoded for move down
-          tgData.onEvent('viewportChanged', (e) => {
-            console.log('move down');
-            moveTiles('move_down');
-          })
-        } catch {}
-        setTg(tgData);
-      } else {
-        console.log('Telegram WebApp is undefined, retrying…');
-        setTimeout(readyTg, 500);
-      }
-    }
-
-    initializeTelegram()
-  }, [])
-
   return (
-    <div className={styles.twenty48} style={{ display: 'flex', flexDirection: "column", height: '100vh', padding: 0 }}>
+    <div className={styles.twenty48} style={{ display: 'flex', flexDirection: "column", height: '95vh', padding: 0 }}>
       <Head>
         <title>Play 2048</title>
         <meta
@@ -170,7 +117,7 @@ export default function Home() {
         </div>
       </div>
       
-      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '100px'}}>
+      <div style={{ textAlign: 'center', flexGrow: 1, display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '20px', paddingTop: '100px'}}>
         {loading && !tg ? 
 
           <Spinner /> 
@@ -181,7 +128,7 @@ export default function Home() {
             </h1>
             <DailyScoreChart dailyScore={user.dailyScore ? user.dailyScore : dailyScore} />
 
-            <Link href="/play" style={{
+            {/* <Link href="/play" style={{
                 width: '60%',
                 padding: '10px',
                 textAlign: 'center',
@@ -193,27 +140,15 @@ export default function Home() {
 
             }}>
               Play 2048
-            </Link>
+            </Link> */}
           </>
         }
 
-        <div>
-        <p>
-          <Link href={'/leaderboard'}>
-            Leaderboard
-          </Link>
-        </p>
-        <p>
-          <Link href={'/referral'}>
-            Referral
-          </Link>
-        </p>
-        </div>
       </div>
 
-      <footer>
+      {/* <footer>
         <div>Made with ❤️ by Saji <br /> tgv {version} </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }

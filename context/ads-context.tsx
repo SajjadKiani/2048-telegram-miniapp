@@ -38,6 +38,33 @@ interface AdsProviderProps {
 
 const AdsProvider: React.FC<AdsProviderProps> = ({children}) => {
     const [adsController, setAdsController] = useState<AdsController | undefined>(undefined)
+
+    const loadAdsScript = () => {
+      return new Promise((resolve, reject) => {
+        const adScript = document.createElement('script');
+        adScript.src = 'https://sad.adsgram.ai/js/sad.min.js';
+        adScript.onload = resolve;
+        adScript.onerror = reject;
+    
+        document.head.appendChild(adScript);
+      });
+    }
+
+    const readyAds = async () => {
+      try {
+        await loadAdsScript()
+        if (window.Adsgram) {
+          setAdsController( window.Adsgram.init({ blockId: '261', debug: true }))
+          console.log('ads inited!');
+        }
+      } catch (e) {
+        console.log('Failed to load Telegram script', e);
+      }
+    }
+
+    useEffect(() => {
+      readyAds()
+    }, [])
     
     return <AdsContext.Provider value={{ adsController, setAdsController }}> {children} </AdsContext.Provider>
 }
