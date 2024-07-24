@@ -38,14 +38,13 @@ export default async function handler (
         console.log('try message for: ' + user.telegramUsername);
         try {
             const response = await axios.post(TELEGRAM_API_URL, {
-                chat_id: user.telegramId,
+                chat_id: parseInt(user.telegramId),
                 text: message,
                 reply_markup: keyboard,
               });
               successSendCount++;
-        } catch (e) {
-            console.log(e);
-            
+        } catch (e: any) {
+            return res.status(500).json({message: e.message})
         }
     }
 
