@@ -34,19 +34,21 @@ export default async function handler (
 
     let successSendCount = 0
 
-    for (const user of users) {
-        console.log('try message for: ' + user.telegramUsername);
-        try {
-            const response = await axios.post(TELEGRAM_API_URL, {
-                chat_id: parseInt(user.telegramId),
-                text: message,
-                reply_markup: keyboard,
-              });
-              successSendCount++;
-        } catch (e: any) {
-            return res.status(500).json({message: e.message})
-        }
-    }
+    setInterval( async () => {
+      for (const user of users) {
+          console.log('try message for: ' + user.telegramUsername);
+          try {
+              const response = await axios.post(TELEGRAM_API_URL, {
+                  chat_id: parseInt(user.telegramId),
+                  text: message,
+                  reply_markup: keyboard,
+                });
+                successSendCount++;
+          } catch (e: any) {
+              return res.status(500).json({message: e.message})
+          }
+      }
+    }, 1000)
 
     res.status(200).json({message: `${successSendCount}`})
   }
